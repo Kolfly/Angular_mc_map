@@ -1,7 +1,4 @@
-<div class="searchBar">
-<form >
-    <label for="search">Rechercher un restaurant</label>
-    <input type="text" id="search" name="search">
-    <button type="submit"><img src="" alt="loupe"></button>
-</form>
+<div class="search-wrap">
+  <input [(ngModel)]="city" placeholder="Entrez une ville" (keyup.enter)="search()" />
+  <button (click)="search()">Rechercher</button>
 </div>

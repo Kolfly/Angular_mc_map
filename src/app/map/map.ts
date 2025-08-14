@@ -1,49 +1,68 @@
-import { Component, OnInit } from '@angular/core';
-import { LeafletModule } from '@bluehalo/ngx-leaflet'; // Import du module Leaflet
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import * as L from 'leaflet';
+import { ServiceService, NominatimResult } from '../service/Service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [
-    LeafletModule // Import nécessaire pour activer les directives ngx-leaflet
-  ],
+  imports: [CommonModule],
   templateUrl: './map.html',
-  styleUrls: ['./map.scss'],
+  styleUrls: ['./map.scss']
 })
-export class MapComponent implements OnInit {
-  options = {
-    layers: [
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '© OpenStreetMap contributors',
-      }),
-    ],
-    zoom: 13,
-    center: L.latLng(48.8566, 2.3522), // Paris
-  };
+export class MapComponent implements OnInit, OnDestroy {
+  private map!: L.Map;
+  private markersLayer = L.layerGroup();
+  private sub?: Subscription;
 
-  // Liste des marqueurs
-  markers: L.Marker[] = [];
+  constructor(private service: ServiceService) {}
 
-  // Ajouter des marqueurs initiaux
-  ngOnInit(): void {
-    this.addMarker(48.8566, 2.3522, 'Bienvenue à Paris !');
-    this.addMarker(48.8584, 2.2945, 'Tour Eiffel');
-    this.addMarker(48.8606, 2.3376, 'Musée du Louvre');
+  ngOnInit() {
+    this.map = L.map('map').setView([46.6, 2.4], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(this.map);
+
+    this.markersLayer.addTo(this.map);
+
+    // Icône par défaut Leaflet
+    L.Marker.prototype.options.icon = L.icon({
+      iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+      iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+      shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41]
+    });
+
+    this.sub = this.service.currentCity$.subscribe((city: string) => {
+      if (city) this.findMcDonalds(city);
+    });
   }
 
-  // Méthode pour ajouter un marqueur
-  addMarker(lat: number, lng: number, popupText: string): void {
-    const marker = L.marker([lat, lng], {
-      icon: L.icon({
-        iconSize: [25, 41],
-        iconAnchor: [13, 41],
-        iconUrl: 'assets/marker-icon.png',
-        shadowUrl: 'assets/marker-shadow.png',
-      }),
-    }).bindPopup(popupText);
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
+    this.map?.remove();
+  }
 
-    this.markers.push(marker);
+  private findMcDonalds(city: string) {
+    this.service.searchMcDonalds(city).subscribe((results: NominatimResult[]) => {
+      this.markersLayer.clearLayers();
+
+      if (!results.length) return;
+
+      const first = results[0];
+      const lat = parseFloat(first.lat);
+      const lon = parseFloat(first.lon);
+      if (!isNaN(lat) && !isNaN(lon)) this.map.setView([lat, lon], 13);
+
+      results.forEach(r => {
+        const la = parseFloat(r.lat);
+        const lo = parseFloat(r.lon);
+        if (!isNaN(la) && !isNaN(lo)) {
+          L.marker([la, lo]).bindPopup(r.display_name).addTo(this.markersLayer);
+        }
+      });
+    });
   }
 }

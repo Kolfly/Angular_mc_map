@@ -1,20 +1,12 @@
 import { Component } from '@angular/core';
-import {MapComponent} from './map/map';
 import { SearchBar } from './search-bar/search-bar';
-import { Selection } from './selection/selection';
-import { PopUpInfo } from './pop-up-info/pop-up-info';
+import { MapComponent } from './map/map';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    MapComponent,
-    SearchBar,
-    Selection,
-    PopUpInfo
-  ],
+  standalone: true,
+  imports: [SearchBar, MapComponent],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrls: ['./app.scss']
 })
-export class AppComponent {
-  title = 'mac_donald';
-}
+export class AppComponent {}

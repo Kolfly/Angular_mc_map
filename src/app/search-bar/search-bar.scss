@@ -1,0 +1,25 @@
+.search-wrap {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+
+  input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+  }
+
+  button {
+    padding: 0.5rem 0.9rem;
+    border-radius: 0.5rem;
+    border: 0;
+    background: #2b6cb0;
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(0.95);
+    }
+  }
+}
