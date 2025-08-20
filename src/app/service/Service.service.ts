@@ -16,5 +16,10 @@ export class ServiceService {
 
   searchMcDonalds(city: string): Observable<NominatimResult[]> {
     return this.http.get<NominatimResult[]>(`${this.apiUrl}?city=${encodeURIComponent(city)}`);
-  }
+  };
+
+  getCitySuggestions(query: string): Observable<any[]> {
+  return this.http.get<any[]>(`http://localhost:3000/autocomplete?q=${query}`);
+}
+
 }

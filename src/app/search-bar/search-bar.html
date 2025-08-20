@@ -1,4 +1,17 @@
+<div class="searchContainer">
 <div class="search-bar">
-  <input [(ngModel)]="city" placeholder="Entrez une ville" (keyup.enter)="search()" />
+  <input [(ngModel)]="city"
+         placeholder="Entrez une ville"
+         (keyup.enter)="search()"
+         (input)="onInputChange()" />
+
   <button (click)="search()">Rechercher</button>
+
+  <ul class="suggestions" *ngIf="suggestions.length > 0">
+    <li *ngFor="let suggestion of suggestions"
+        (click)="selectSuggestion(suggestion)">
+      {{ suggestion.display_name }}
+    </li>
+  </ul>
+</div>
 </div>
