@@ -5,7 +5,7 @@
          (keyup.enter)="search()"
          (input)="onInputChange()" />
 
-  <button (click)="search()">Rechercher</button>
+  <button (click)="search()"><img src="assets/searchbar/icon8-loupe.svg" alt="loupe"></button>
 
   <ul class="suggestions" *ngIf="suggestions.length > 0">
     <li *ngFor="let suggestion of suggestions"

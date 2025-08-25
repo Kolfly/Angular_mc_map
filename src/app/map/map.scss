@@ -1,7 +1,40 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.container-map {
+  position: relative;
+  width: 100vw;   /* toujours la largeur de l'écran */
+  height: 100vh;  /* toujours la hauteur de l'écran */
+  margin: 0;
+  padding: 0;
+}
+
 .map {
-  width: 1920px;
- height: 100%;
   position: absolute;
-  z-index: 1;
-  
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;  /* occupe toute la hauteur */
+  z-index: 0;
+}
+
+.selected-mcdo {
+  position: absolute;
+  bottom: 0;       /* collé en bas */
+  left: 0;
+  width: 100%;
+  background-color: white;
+  z-index: 700;
+  padding: 10px;
+
+  /* texte qui revient à la ligne */
+  white-space: normal; 
+  word-wrap: break-word;
+
+  /* hauteur minimale mais extensible si contenu plus long */
+  min-height: 100px;
+  max-height: none; 
 }

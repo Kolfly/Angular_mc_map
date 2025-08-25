@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PopUpInfo } from './pop-up-info';
+import { SelectedMcdo } from './selected-mcdo';
 
-describe('PopUpInfo', () => {
-  let component: PopUpInfo;
-  let fixture: ComponentFixture<PopUpInfo>;
+describe('SelectedMcdo', () => {
+  let component: SelectedMcdo;
+  let fixture: ComponentFixture<SelectedMcdo>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PopUpInfo]
+      imports: [SelectedMcdo]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PopUpInfo);
+    fixture = TestBed.createComponent(SelectedMcdo);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
