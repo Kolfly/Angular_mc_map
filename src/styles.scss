@@ -1,14 +1,26 @@
 @import 'leaflet/dist/leaflet.css';
+
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   overflow: hidden; // évite le scroll inutile
+  font-family: 'Inter', sans-serif;
 }
 
 app-root {
   display: block;
   height: 100%;
   width: 100%;
+}
+.choose-btn{
+  min-height: 33px;
+  min-width: 79px;
+  border-radius: 8px;
+  background-color: #F0C900;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  
 }

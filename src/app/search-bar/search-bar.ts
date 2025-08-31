@@ -1,30 +1,35 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceService } from '../service/Service.service';
 import { CommonModule } from '@angular/common';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.html',
   styleUrls: ['./search-bar.scss'],
   standalone: true,
-  imports: [FormsModule, CommonModule]
+  imports: [FormsModule, CommonModule, ReactiveFormsModule]
 })
 export class SearchBar {
   city = '';
   suggestions: any[] = [];
-
-  constructor(private service: ServiceService) {}
-
-  onInputChange() {
-    if (this.city.trim().length > 2) {
+ searchControl: FormControl = new FormControl('');
+  constructor(private service: ServiceService) {
+    this.searchControl.valueChanges.pipe(
+  debounceTime(225)
+).subscribe(value => {
+  if (this.city.trim().length > 2) {
       this.service.getCitySuggestions(this.city.trim()).subscribe(data => {
         this.suggestions = data;
       });
     } else {
       this.suggestions = [];
     }
-  }
+});
+}
+
+ 
 
   selectSuggestion(suggestion: any) {
     this.city = suggestion.display_name;

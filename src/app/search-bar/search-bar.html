@@ -1,11 +1,18 @@
 <div class="searchContainer">
 <div class="search-bar">
+  <h2>Rechercher un Restaurant</h2>
   <input [(ngModel)]="city"
+         [formControl]="searchControl"
          placeholder="Entrez une ville"
          (keyup.enter)="search()"
-         (input)="onInputChange()" />
+          />
 
-  <button (click)="search()"><img src="assets/searchbar/icon8-loupe.svg" alt="loupe"></button>
+  <button (click)="search()">
+    <svg width="24" height="24" viewBox="0 0 100 100">
+  <circle cx="35" cy="35" r="25" fill="none" stroke="currentColor" stroke-width="8"/>
+  <line x1="55" y1="55" x2="75" y2="75" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+</svg>
+</button>
 
   <ul class="suggestions" *ngIf="suggestions.length > 0">
     <li *ngFor="let suggestion of suggestions"

@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-map',
-  standalone: true,                // <- important pour importer un autre composant standalone
+  standalone: true,                
   imports: [CommonModule, SelectedMcdoComponent],
   templateUrl: './map.html',
   styleUrls: ['./map.scss']

@@ -1,5 +1,11 @@
-
-<div *ngIf="selectedMcDo" class="selected-mcdo">
-  <h3>{{ selectedMcDo.name }}</h3>
-  <p>{{ selectedMcDo.display_name }}</p>
-  <button (click)="continuer()">Continuer</button>
+<div class="selected-mcdo">
+  <div *ngIf="selectedMcDo; else noSelection">
+    <h3>Restaurant sélectionné</h3>
+    <p>{{ selectedMcDo.display_name }}</p>
+    <button class="choose-btn" (click)="continuer()">Continuer</button>
+  </div>
+  
+  <ng-template #noSelection>
+    <p class="no-selection"><strong>Aucun restaurant sélectionné</strong></p>
+  </ng-template>
+</div>

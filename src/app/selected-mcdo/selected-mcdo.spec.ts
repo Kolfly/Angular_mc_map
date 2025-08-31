@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectedMcdo } from './selected-mcdo';
+import { SelectedMcdoComponent } from './selected-mcdo';
 
 describe('SelectedMcdo', () => {
-  let component: SelectedMcdo;
-  let fixture: ComponentFixture<SelectedMcdo>;
+  let component: SelectedMcdoComponent;
+  let fixture: ComponentFixture<SelectedMcdoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SelectedMcdo]
+      imports: [SelectedMcdoComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SelectedMcdo);
+    fixture = TestBed.createComponent(SelectedMcdoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
