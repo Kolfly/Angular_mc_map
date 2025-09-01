@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
-import { ServiceService, NominatimResult } from '../service/Service.service';
+import { MapService, NominatimResult } from '../service/MapService.service';
 import { Subscription } from 'rxjs';
 import { SelectedMcdoComponent } from '../selected-mcdo/selected-mcdo';
 import { CommonModule } from '@angular/common';
@@ -17,14 +17,13 @@ export class MapComponent implements OnInit, OnDestroy {
   private markers = L.layerGroup();
   private sub?: Subscription;
 
-  constructor(private service: ServiceService) {}
+  constructor(private service: MapService) {}
 
   ngOnInit() {
     this.map = L.map('map').setView([46.6, 2.4], 6);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
     this.markers.addTo(this.map);
 
-    // Icône par défaut Leaflet avec PNG locaux
     L.Marker.prototype.options.icon = L.icon({
       iconUrl: 'assets/leaflet/marker-icon.png',
       iconRetinaUrl: 'assets/leaflet/marker-icon-2x.png',
@@ -60,7 +59,6 @@ export class MapComponent implements OnInit, OnDestroy {
 
         const marker = L.marker([lat, lon]);
 
-        // Popup avec bouton "Choisir"
         const popupContent = `
           <b>${r.name || 'McDonald\'s'}</b><br/>
           ${r.display_name}<br/>

@@ -10,12 +10,11 @@ export interface NominatimResult {
 }
 
 @Injectable({ providedIn: 'root' })
-export class ServiceService {
+export class MapService {
   private citySource = new BehaviorSubject<string>('');
   currentCity$ = this.citySource.asObservable();
   private apiUrl = 'http://localhost:3000/mcdonalds';
 
-  // Observable qui stocke le McDo sélectionné
   private selectedMcDoSource = new BehaviorSubject<NominatimResult | null>(null);
   selectedMcDo$ = this.selectedMcDoSource.asObservable();
 

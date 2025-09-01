@@ -1,18 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { ServiceService, NominatimResult } from './Service.service';
+import { MapService, NominatimResult } from './MapService.service';
 
-describe('ServiceService', () => {
-  let service: ServiceService;
+describe('MapService', () => {
+  let service: MapService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [ServiceService]
+      providers: [MapService]
     });
-    service = TestBed.inject(ServiceService);
+    service = TestBed.inject(MapService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 
@@ -24,18 +24,20 @@ describe('ServiceService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should initialize with empty city', (done) => {
+  it('should initialize with empty city', () => {
+    let receivedCity: string | undefined;
     service.currentCity$.subscribe(city => {
-      expect(city).toBe('');
-      done();
+      receivedCity = city;
     });
+    expect(receivedCity).toBe('');
   });
 
-  it('should initialize with no selected McDonald', (done) => {
+  it('should initialize with no selected McDonald', () => {
+    let receivedMcDo: NominatimResult | null | undefined;
     service.selectedMcDo$.subscribe(mcdo => {
-      expect(mcdo).toBeNull();
-      done();
+      receivedMcDo = mcdo;
     });
+    expect(receivedMcDo).toBeNull();
   });
 
   it('should change city and emit new value', () => {
@@ -97,15 +99,17 @@ describe('ServiceService', () => {
       display_name: 'Paris, France',
       name: "McDonald's"
     };
-    let receivedMcDo: NominatimResult | null = null;
+    const receivedValues: (NominatimResult | null)[] = [];
 
     service.selectedMcDo$.subscribe(mcdo => {
-      receivedMcDo = mcdo;
+      receivedValues.push(mcdo);
     });
 
     service.selectMcDo(testMcDo);
 
-    expect(receivedMcDo).toEqual(testMcDo);
+    expect(receivedValues[0]).toBeNull();
+    expect(receivedValues[1]).toEqual(testMcDo);
+    expect(receivedValues.length).toBe(2);
   });
 
   it('should handle HTTP error for searchMcDonalds', () => {

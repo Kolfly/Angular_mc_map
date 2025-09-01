@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ServiceService } from '../service/Service.service';
+import { MapService } from '../service/MapService.service';
 import { CommonModule } from '@angular/common';
 import { debounceTime } from 'rxjs';
 
@@ -15,7 +15,7 @@ export class SearchBar {
   city = '';
   suggestions: any[] = [];
  searchControl: FormControl = new FormControl('');
-  constructor(private service: ServiceService) {
+  constructor(private service: MapService) {
     this.searchControl.valueChanges.pipe(
   debounceTime(225)
 ).subscribe(value => {

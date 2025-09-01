@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ServiceService, NominatimResult } from '../service/Service.service';
+import { MapService, NominatimResult } from '../service/MapService.service';
 import { CommonModule } from '@angular/common';
 
 
@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 export class SelectedMcdoComponent implements OnInit {
   selectedMcDo: NominatimResult | null = null;
 
-  constructor(private service: ServiceService) {}
+  constructor(private service: MapService) {}
 
   ngOnInit(): void {
     this.service.selectedMcDo$.subscribe(mcdo => {
@@ -24,7 +24,6 @@ export class SelectedMcdoComponent implements OnInit {
   continuer() {
     if (this.selectedMcDo) {
       alert(`Vous continuez avec : ${this.selectedMcDo.name}`);
-      // Ici tu peux ajouter la navigation ou autre action
     }
   }
 }

@@ -4,27 +4,27 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 
 import { SearchBar } from './search-bar';
-import { ServiceService } from '../service/Service.service';
+import { MapService } from '../service/MapService.service';
 
 describe('SearchBar', () => {
   let component: SearchBar;
   let fixture: ComponentFixture<SearchBar>;
-  let mockService: jasmine.SpyObj<ServiceService>;
+  let mockService: jasmine.SpyObj<MapService>;
 
   beforeEach(async () => {
-    const spy = jasmine.createSpyObj('ServiceService', ['getCitySuggestions', 'changeCity']);
+    const spy = jasmine.createSpyObj('MapService', ['getCitySuggestions', 'changeCity']);
 
     await TestBed.configureTestingModule({
       imports: [SearchBar, HttpClientTestingModule, ReactiveFormsModule],
       providers: [
-        { provide: ServiceService, useValue: spy }
+        { provide: MapService, useValue: spy }
       ]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(SearchBar);
     component = fixture.componentInstance;
-    mockService = TestBed.inject(ServiceService) as jasmine.SpyObj<ServiceService>;
+    mockService = TestBed.inject(MapService) as jasmine.SpyObj<MapService>;
     fixture.detectChanges();
   });
 
@@ -45,7 +45,7 @@ describe('SearchBar', () => {
     component.city = 'Par';
     component.searchControl.setValue('Par');
     
-    tick(300); // Wait for debounce
+    tick(300);
     
     expect(mockService.getCitySuggestions).toHaveBeenCalledWith('Par');
     expect(component.suggestions).toEqual(mockSuggestions);

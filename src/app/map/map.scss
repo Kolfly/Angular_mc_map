@@ -6,8 +6,8 @@ html, body {
 
 .container-map {
   position: relative;
-  width: 100vw;   /* toujours la largeur de l'écran */
-  height: 100vh;  /* toujours la hauteur de l'écran */
+  width: 100vw;
+  height: 100vh;
   margin: 0;
   padding: 0;
 }
@@ -23,7 +23,7 @@ html, body {
 
 .selected-mcdo {
   position: absolute;
-  bottom: 0;       /* collé en bas */
+  bottom: 0;
   left: 0;
   width: 100%;
   background-color: white;
@@ -32,18 +32,16 @@ html, body {
   border-radius: 16px 16px 0 0;
   box-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.45);
 box-sizing: border-box;
-  /* texte qui revient à la ligne */
   white-space: normal; 
   word-wrap: break-word;
 
-  /* hauteur minimale mais extensible si contenu plus long */
   min-height: 100px;
   max-height: none; 
 }
 :host ::ng-deep {
   .leaflet-control-zoom {
     .leaflet-control-zoom-in {
-      margin-bottom: 5px; // Ajoute un espace de 5px entre les boutons
+      margin-bottom: 5px;
     }
   }
 }

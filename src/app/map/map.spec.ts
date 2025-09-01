@@ -3,9 +3,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
 
 import { MapComponent } from './map';
-import { ServiceService, NominatimResult } from '../service/Service.service';
+import { MapService, NominatimResult } from '../service/MapService.service';
 
-// Mock Leaflet
 const mockMap = {
   setView: jasmine.createSpy('setView').and.returnValue({}),
   remove: jasmine.createSpy('remove'),
@@ -34,27 +33,26 @@ const mockL = {
 describe('MapComponent', () => {
   let component: MapComponent;
   let fixture: ComponentFixture<MapComponent>;
-  let mockService: jasmine.SpyObj<ServiceService>;
+  let mockService: jasmine.SpyObj<MapService>;
 
   beforeEach(async () => {
-    const spy = jasmine.createSpyObj('ServiceService', ['searchMcDonalds', 'selectMcDo'], {
+    const spy = jasmine.createSpyObj('MapService', ['searchMcDonalds', 'selectMcDo'], {
       currentCity$: of('Paris')
     });
 
-    // Mock Leaflet globally
     (window as any).L = mockL;
 
     await TestBed.configureTestingModule({
       imports: [MapComponent, HttpClientTestingModule],
       providers: [
-        { provide: ServiceService, useValue: spy }
+        { provide: MapService, useValue: spy }
       ]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(MapComponent);
     component = fixture.componentInstance;
-    mockService = TestBed.inject(ServiceService) as jasmine.SpyObj<ServiceService>;
+    mockService = TestBed.inject(MapService) as jasmine.SpyObj<MapService>;
   });
 
   it('should create', () => {
