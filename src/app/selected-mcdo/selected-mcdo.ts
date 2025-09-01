@@ -13,10 +13,10 @@ import { CommonModule } from '@angular/common';
 export class SelectedMcdoComponent implements OnInit {
   selectedMcDo: NominatimResult | null = null;
 
-  constructor(private service: MapService) {}
+  constructor(private mapService: MapService) {}
 
   ngOnInit(): void {
-    this.service.selectedMcDo$.subscribe(mcdo => {
+    this.mapService.selectedMcDo$.subscribe(mcdo => {
       this.selectedMcDo = mcdo;
     });
   }

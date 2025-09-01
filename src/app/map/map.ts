@@ -17,7 +17,7 @@ export class MapComponent implements OnInit, OnDestroy {
   private markers = L.layerGroup();
   private sub?: Subscription;
 
-  constructor(private service: MapService) {}
+  constructor(private mapService: MapService) {}
 
   ngOnInit() {
     this.map = L.map('map').setView([46.6, 2.4], 6);
@@ -34,7 +34,7 @@ export class MapComponent implements OnInit, OnDestroy {
       shadowSize: [41, 41]
     });
 
-    this.sub = this.service.currentCity$.subscribe(city => {
+    this.sub = this.mapService.currentCity$.subscribe(city => {
       if (city) this.loadMcDonalds(city);
     });
   }
@@ -45,7 +45,7 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   private loadMcDonalds(city: string) {
-    this.service.searchMcDonalds(city).subscribe((results: NominatimResult[]) => {
+    this.mapService.searchMcDonalds(city).subscribe((results: NominatimResult[]) => {
       this.markers.clearLayers();
       if (!results.length) return;
 
@@ -85,7 +85,7 @@ export class MapComponent implements OnInit, OnDestroy {
               name: btn.getAttribute('data-name') || 'McDonald\'s',
               display_name: btn.getAttribute('data-display') || ''
             };
-            this.service.selectMcDo(mcdo);
+            this.mapService.selectMcDo(mcdo);
           }, { once: true });
         }
       });

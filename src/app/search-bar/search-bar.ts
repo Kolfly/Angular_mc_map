@@ -15,12 +15,12 @@ export class SearchBar {
   city = '';
   suggestions: any[] = [];
  searchControl: FormControl = new FormControl('');
-  constructor(private service: MapService) {
+  constructor(private mapService: MapService) {
     this.searchControl.valueChanges.pipe(
   debounceTime(225)
 ).subscribe(value => {
   if (this.city.trim().length > 2) {
-      this.service.getCitySuggestions(this.city.trim()).subscribe(data => {
+      this.mapService.getCitySuggestions(this.city.trim()).subscribe(data => {
         this.suggestions = data;
       });
     } else {
@@ -38,7 +38,7 @@ export class SearchBar {
   }
 
   search() {
-    if (this.city.trim()) this.service.changeCity(this.city.trim());
+    if (this.city.trim()) this.mapService.changeCity(this.city.trim());
   }
 }
 
