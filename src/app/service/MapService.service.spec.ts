@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { MapService, NominatimResult } from './MapService.service';
+import { MapService, NominatimResult, CitySuggestion } from './MapService.service';
 
 describe('MapService', () => {
   let service: MapService;
@@ -68,14 +68,14 @@ describe('MapService', () => {
       expect(results).toEqual(mockResults);
     });
 
-    const req = httpMock.expectOne(`http://localhost:3000/mcdonalds?city=${encodeURIComponent(testCity)}`);
+    const req = httpMock.expectOne(`https://wacdoang.online/mcdonalds?city=${encodeURIComponent(testCity)}`);
     expect(req.request.method).toBe('GET');
     req.flush(mockResults);
   });
 
   it('should get city suggestions and make HTTP request', () => {
     const testQuery = 'Par';
-    const mockSuggestions = [
+    const mockSuggestions: CitySuggestion[] = [
       {
         display_name: 'Paris, France',
         lat: '48.8566',
@@ -87,7 +87,7 @@ describe('MapService', () => {
       expect(suggestions).toEqual(mockSuggestions);
     });
 
-    const req = httpMock.expectOne(`http://localhost:3000/autocomplete?q=${testQuery}`);
+    const req = httpMock.expectOne(`https://wacdoang.online/autocomplete?q=${testQuery}`);
     expect(req.request.method).toBe('GET');
     req.flush(mockSuggestions);
   });
@@ -122,7 +122,7 @@ describe('MapService', () => {
       }
     });
 
-    const req = httpMock.expectOne(`http://localhost:3000/mcdonalds?city=${encodeURIComponent(testCity)}`);
+    const req = httpMock.expectOne(`https://wacdoang.online/mcdonalds?city=${encodeURIComponent(testCity)}`);
     req.flush('Server Error', { status: 500, statusText: 'Server Error' });
   });
 
@@ -136,7 +136,7 @@ describe('MapService', () => {
       }
     });
 
-    const req = httpMock.expectOne(`http://localhost:3000/autocomplete?q=${testQuery}`);
+    const req = httpMock.expectOne(`https://wacdoang.online/autocomplete?q=${testQuery}`);
     req.flush('Bad Request', { status: 400, statusText: 'Bad Request' });
   });
 });

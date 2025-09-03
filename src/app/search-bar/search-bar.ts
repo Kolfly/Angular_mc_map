@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MapService } from '../service/MapService.service';
+import { MapService, CitySuggestion } from '../service/MapService.service';
 import { CommonModule } from '@angular/common';
 import { debounceTime } from 'rxjs';
 
@@ -13,26 +13,34 @@ import { debounceTime } from 'rxjs';
 })
 export class SearchBar {
   city = '';
-  suggestions: any[] = [];
- searchControl: FormControl = new FormControl('');
+  suggestions: CitySuggestion[] = [];
+  searchControl: FormControl = new FormControl('');
+  private isSelectingSuggestion = false;
+
   constructor(private mapService: MapService) {
     this.searchControl.valueChanges.pipe(
-  debounceTime(225)
-).subscribe(value => {
-  if (this.city.trim().length > 2) {
-      this.mapService.getCitySuggestions(this.city.trim()).subscribe(data => {
-        this.suggestions = data;
-      });
-    } else {
-      this.suggestions = [];
-    }
-});
-}
+      debounceTime(225)
+    ).subscribe(value => {
+      if (this.isSelectingSuggestion) {
+        this.isSelectingSuggestion = false;
+        return;
+      }
+      if (this.city.trim().length > 2) {
+        this.mapService.getCitySuggestions(this.city.trim()).subscribe(data => {
+          this.suggestions = data;
+        });
+      } else {
+        this.suggestions = [];
+      }
+    });
+  }
 
  
 
-  selectSuggestion(suggestion: any) {
+  selectSuggestion(suggestion: CitySuggestion) {
+    this.isSelectingSuggestion = true;
     this.city = suggestion.display_name;
+    this.searchControl.setValue(this.city, { emitEvent: true });
     this.suggestions = [];
     this.search();
   }

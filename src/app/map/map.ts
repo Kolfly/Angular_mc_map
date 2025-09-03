@@ -1,6 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
 import { MapService, NominatimResult } from '../service/MapService.service';
+
+interface LeafletPopupEvent {
+  popup: {
+    getElement(): HTMLElement;
+  };
+}
 import { Subscription } from 'rxjs';
 import { SelectedMcdoComponent } from '../selected-mcdo/selected-mcdo';
 import { CommonModule } from '@angular/common';
@@ -74,7 +80,7 @@ export class MapComponent implements OnInit, OnDestroy {
         marker.addTo(this.markers);
       });
 
-      this.map.on('popupopen', (e: any) => {
+      this.map.on('popupopen', (e: LeafletPopupEvent) => {
         const popup = e.popup.getElement();
         const btn = popup.querySelector('.choose-btn');
         if (btn) {

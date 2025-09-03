@@ -9,11 +9,17 @@ export interface NominatimResult {
   name?: string;
 }
 
+export interface CitySuggestion {
+  display_name: string;
+  lat: string;
+  lon: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class MapService {
   private citySource = new BehaviorSubject<string>('');
   currentCity$ = this.citySource.asObservable();
-  private apiUrl = 'http://localhost:3000/mcdonalds';
+  private apiUrl = 'https://wacdoang.online/mcdonalds';
 
   private selectedMcDoSource = new BehaviorSubject<NominatimResult | null>(null);
   selectedMcDo$ = this.selectedMcDoSource.asObservable();
@@ -28,8 +34,8 @@ export class MapService {
     return this.http.get<NominatimResult[]>(`${this.apiUrl}?city=${encodeURIComponent(city)}`);
   }
 
-  getCitySuggestions(query: string): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:3000/autocomplete?q=${query}`);
+  getCitySuggestions(query: string): Observable<CitySuggestion[]> {
+    return this.http.get<CitySuggestion[]>(`https://wacdoang.online/autocomplete?q=${query}`);
   }
 
   selectMcDo(mcdo: NominatimResult) {
